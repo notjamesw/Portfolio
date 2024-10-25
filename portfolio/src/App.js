@@ -36,7 +36,6 @@ function Introduction() {
 function AboutMe() {
   return(
     <div class = "mt-8 mb-8 flex flex-col flex justify-center items-center">
-      <div></div>
       <h2 class = "text-4xl p-4 font-bold text-slate-800">About Me</h2>
       <div class = "flex flex-col p-2 w-3/4 font-serif">
         <p class = "text-indent-2 text-lg text-slate-800 mb-6">
@@ -68,10 +67,30 @@ function AboutMe() {
 
 function Contact() {
   return(
-    <div id = "Contact">
-      <span>Email: leranjamesw@gmail.com</span>
-      <a class = "hover:underline">Github</a>
-      <a class = "hover:underline">LinkedIn</a>
+    <div id = "Contact" class = "m-8 w-3/4 rounded-2xl border-8 border-slate-800 container mx:auto flex flex-col items-center justify-center">
+      <h2 class = "p-4 text-3xl font-bold text-slate-800">Contact Me!</h2>
+      <div class = "p-4 flex container mx:auto justify-center items-center">
+        <div class = "m-2 flex flex-row items-center">
+          <img src = '/phoneIcon.png' alt = "" class = "w-12 h-12"></img>
+          <span class = "m-2 text-lg">leranjamesw@gmail.com</span>
+        </div>
+        <a
+          href = "https://github.com/notjamesw" 
+          target="_blank"
+          rel='noreferrer'
+          class = "m-4">
+          <img src = "/gitHubLogo.png" alt = "">
+          </img>
+        </a>
+        <a 
+          href = "https://www.linkedin.com/in/james-wen-33a7941b7/" 
+          target="_blank"
+          rel='noreferrer'
+          class = "m-4">
+          <img src = "/linkedInLogo.png" alt = "">
+          </img>
+        </a>
+      </div>
     </div>
   )
 }
@@ -108,8 +127,8 @@ function App() {
       <div ref = {projectsDivRef} class = "p-4 container mx-auto min-w-full bg-blue-950 h-1/2">
         <Projects/>
       </div>
-      <div ref = {contactDivRef} class = "p-4 container mx-auto min-w-full bg-blue-950 h-1/2">
-
+      <div ref = {contactDivRef} class = "p-4 flex container mx-auto min-w-full bg-slate-100 h-1/2 items-center justify-center">
+        <Contact/>
       </div>
     </div>
   );

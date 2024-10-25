@@ -13,7 +13,7 @@ function NavigationButton(props) {
         <div class = "ml-1 mr-1">
             <button 
                 onClick={(e)=> onScroll(e, divRef)}
-                class = "px-4 py-1 text-medium text-slate-900 font-semibold rounded-full border-2 border-slate-200 hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
+                className = "px-4 py-1 text-medium text-slate-900 font-semibold rounded-full border-2 border-slate-200 hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
                 {name}
             </button>
         </div>
