@@ -25,6 +25,7 @@ function Projects() {
             <h2 class = "pl-0 pt-8 pb-12 m-6 text-4xl font-medium text-slate-100">
                 {titleText}
             </h2>
+            <div class = "container mx-auto place-items-left"></div>
             <div class = "container mx-auto place-items-center lg:grid lg:grid-cols-3">
                 <Project name = "Racket Web Interpreter"/>
                 <Project name = "Flappy Bird AI"/>

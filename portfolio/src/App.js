@@ -68,26 +68,30 @@ function AboutMe() {
 function Contact() {
   return(
     <div id = "Contact" class = "m-8 w-3/4 rounded-2xl border-8 border-slate-800 container mx:auto flex flex-col items-center justify-center">
-      <h2 class = "p-4 text-3xl font-bold text-slate-800">Contact Me!</h2>
-      <div class = "p-4 flex container mx:auto justify-center items-center">
+      <h2 class = "p-4 m-2 text-3xl font-bold text-slate-800">Contact Me!</h2>
+      <div class = "p-4 flex container mx:auto justify-center items-center mb-4">
         <div class = "m-2 flex flex-row items-center">
-          <img src = '/phoneIcon.png' alt = "" class = "w-12 h-12"></img>
+          <img src = '/phoneIcon.png' alt = "" class = "w-16 h-16"></img>
           <span class = "m-2 text-lg">leranjamesw@gmail.com</span>
         </div>
         <a
           href = "https://github.com/notjamesw" 
           target="_blank"
           rel='noreferrer'
-          class = "m-4">
-          <img src = "/gitHubLogo.png" alt = "">
+          class = "mx-8">
+          <img 
+            src = "/gitHubLogo.png" alt = ""
+            class = "w-16 h-16 rounded-full shadow-md">
           </img>
         </a>
         <a 
           href = "https://www.linkedin.com/in/james-wen-33a7941b7/" 
           target="_blank"
           rel='noreferrer'
-          class = "m-4">
-          <img src = "/linkedInLogo.png" alt = "">
+          class = "mx-8">
+          <img 
+            src = "/linkedInLogo.png" alt = ""
+            class = "w-18 h-16 shadow-md">
           </img>
         </a>
       </div>
