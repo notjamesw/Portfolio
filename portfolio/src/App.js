@@ -71,7 +71,7 @@ function Contact() {
       <h2 class = "p-4 m-2 text-3xl font-bold text-slate-800">Contact Me!</h2>
       <div class = "p-4 flex container mx:auto justify-center items-center mb-4">
         <div class = "m-2 flex flex-row items-center">
-          <img src = '/phoneIcon.png' alt = "" class = "w-16 h-16"></img>
+          <img src = '/images/phoneIcon.png' alt = "" class = "w-16 h-16"></img>
           <span class = "m-2 text-lg">leranjamesw@gmail.com</span>
         </div>
         <a
@@ -80,8 +80,8 @@ function Contact() {
           rel='noreferrer'
           class = "mx-8">
           <img 
-            src = "/gitHubLogo.png" alt = ""
-            class = "w-16 h-16 rounded-full shadow-md">
+            src = "/images/gitHubLogo.png" alt = ""
+            class = "w-16 h-16 rounded-full shadow-lg hover:brightness-0">
           </img>
         </a>
         <a 
@@ -90,8 +90,8 @@ function Contact() {
           rel='noreferrer'
           class = "mx-8">
           <img 
-            src = "/linkedInLogo.png" alt = ""
-            class = "w-18 h-16 shadow-md">
+            src = "/images/linkedInLogo.png" alt = ""
+            class = "w-18 h-16 rounded-md shadow-lg hover:brightness-50">
           </img>
         </a>
       </div>
@@ -113,7 +113,7 @@ function App() {
 
   return (
     <div class = "overflow-x-hidden">
-      <div class = "h-screen min-w-full container mx-auto flex flex-col justify-center items-center bg-fixed bg-cover bg-[url('/public/SF.jpg')]">
+      <div class = "h-screen min-w-full container mx-auto flex flex-col justify-center items-center bg-fixed bg-cover bg-[url('/public/images/SF.jpg')]">
         <div class = "container mx-auto fixed justify-end top-2 w-2/3 h-1/8 flex rounded-2xl shadow-xl bg-slate-100 z-10">
           <Navigation 
             onScroll = {handleScroll}
