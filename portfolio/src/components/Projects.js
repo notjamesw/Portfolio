@@ -2,17 +2,32 @@ import "./Projects.css";
 import React, {useState, useEffect} from "react";
 
 function Project(props) {
-    const name = props.name
-    const imgURL = props.imgURL
-    const description = props.description
-    const link = props.link
+    const name = props.name;
+    const imgURL = props.imgURL;
+    const award = props.award;
+    const description = props.description;
+    const link = props.link;
     return(
-        <div class = "rounded-lg border-slate-200 border-4 mb-12 lg:pb-0">
-            <div class = "h-56 w-80 bg-white rounded-t-sm">
-                Image placeholder
+        <div class = "rounded-lg border-slate-200 bg-slate-100 border-4 mb-12 lg:pb-0">
+            <div class = "border-slate-100 bg-slate-100 flex h-56 w-80 rounded-t-sm justify-center">
+                <a
+                  href = {link} 
+                  target="_blank"
+                  rel='noreferrer'>
+                  <img src = {imgURL} alt = "" class = "h-full bg-slate-100">
+                  </img>
+                </a>
             </div>
-            <div class = "p-2 h-40 w-80 bg-white">
-                {name}
+            <div class = "container mx:auto p-2 h-48 w-80 bg-slate-100 flex-col">
+                <h3 class = "mt-2 text-xl font-semibold">
+                  {name}
+                </h3>
+                <p>
+                  {award}
+                </p>
+                <p>
+                  {description}
+                </p>
             </div>
         </div>
     )
@@ -20,6 +35,10 @@ function Project(props) {
 
 function Projects() {
     const titleText = "Check out some of the cool things I've done";
+    const RacketDesc = "";
+    const FlappyDesc = "";
+    const ZenGardenDesc = "";
+    const ZenGardenAward = "🏆 #3 overall @ Calgary Youth Hackathon, out of 100+ participants";
     return(
         <div id = "Projects" class = "container mx-auto mb-10">
             <h2 class = "pl-0 pt-8 pb-12 m-6 text-4xl font-medium text-slate-100">
@@ -27,9 +46,22 @@ function Projects() {
             </h2>
             <div class = "container mx-auto place-items-left"></div>
             <div class = "container mx-auto place-items-center lg:grid lg:grid-cols-3">
-                <Project name = "Racket Web Interpreter"/>
-                <Project name = "Flappy Bird AI"/>
-                <Project name = "Zen Garden Game"/>
+                <Project 
+                  name = "Racket Web Interpreter"
+                  imgURL = "/images/RacketInterpreter.png"
+                  link = "https://github.com/notjamesw/Racket-Interpreter-Web-App"
+                  description = {RacketDesc}/>
+                <Project 
+                  name = "Flappy Bird AI"
+                  imgURL = "/images/FlappyBirdAI.png"
+                  link = "https://github.com/notjamesw/flappybird"
+                  description = {FlappyDesc}/>
+                <Project 
+                  name = "Zen Garden Game"
+                  imgURL = "/images/JapaneseGardenGame.png"
+                  link = "https://github.com/d1story/CYH2021"
+                  description = {ZenGardenDesc}
+                  award = {ZenGardenAward}/>
             </div>
         </div>
     )

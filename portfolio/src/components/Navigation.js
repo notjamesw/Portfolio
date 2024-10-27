@@ -5,9 +5,9 @@ import React, {useState, useEffect} from "react";
 
 
 function NavigationButton(props) {
-    const name = props.name
-    const onScroll = props.onScroll
-    const divRef = props.divRef
+    const name = props.name;
+    const onScroll = props.onScroll;
+    const divRef = props.divRef;
 
     return (
         <div class = "ml-1 mr-1">
@@ -21,10 +21,10 @@ function NavigationButton(props) {
 }
 
 function Navigation(props) {
-    const onScroll = props.onScroll
-    const aboutMeDivRef = props.aboutMeDivRef
-    const projectsDivRef = props.projectsDivRef
-    const contactDivRef = props.contactDivRef
+    const onScroll = props.onScroll;
+    const aboutMeDivRef = props.aboutMeDivRef;
+    const projectsDivRef = props.projectsDivRef;
+    const contactDivRef = props.contactDivRef;
     return (
         <div class="flex flex-row p-2 justify-end mr-2">
             <NavigationButton 

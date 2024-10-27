@@ -81,7 +81,7 @@ function Contact() {
           class = "mx-8">
           <img 
             src = "/images/gitHubLogo.png" alt = ""
-            class = "w-16 h-16 rounded-full shadow-lg hover:brightness-0">
+            class = "w-16 h-16 rounded-full shadow-lg brightness-150 hover:brightness-0">
           </img>
         </a>
         <a 
