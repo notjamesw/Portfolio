@@ -1,4 +1,4 @@
 [build]
   base = "portfolio"              # Base directory
-  publish = "portfolio/build"      # Directory to publish after the build
+  publish = "build"      # Directory to publish after the build
   command = "npm run build"       # Build command
