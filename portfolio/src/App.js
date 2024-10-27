@@ -67,7 +67,7 @@ function AboutMe() {
 
 function Contact() {
   return(
-    <div id = "Contact" class = "m-8 w-3/4 rounded-2xl border-8 border-slate-800 container mx:auto flex flex-col items-center justify-center">
+    <div id = "Contact" class = "bg-slate-100 m-8 w-3/4 rounded-2xl border-8 border-slate-800 container mx:auto flex flex-col items-center justify-center">
       <h2 class = "p-4 m-2 text-3xl font-bold text-slate-800">Contact Me!</h2>
       <div class = "p-4 flex container mx:auto justify-center items-center mb-4">
         <div class = "m-2 flex flex-row items-center">

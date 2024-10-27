@@ -1,7 +1,7 @@
 import "./Projects.css";
-import React, {useState, useEffect} from "react";
+import React, {useRef} from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper';
+import 'swiper/swiper-bundle.css';
 
 function Project(props) {
     const name = props.name;
@@ -10,7 +10,7 @@ function Project(props) {
     const description = props.description;
     const link = props.link;
     return(
-        <div class = "rounded-lg border-slate-200 bg-slate-100 border-4 mb-12 lg:pb-0">
+        <div class = "rounded-lg shadow-lg border-slate-200 bg-slate-100 border-8 mb-12 lg:pb-0">
             <div class = "border-slate-100 bg-slate-100 flex h-56 w-80 rounded-t-sm justify-center">
                 <a
                   href = {link} 
@@ -68,89 +68,63 @@ function Projects() {
                   description = {LOLTMDesc}/>},
       {component: <Project
                   name = "2048 Chrome Extension"
-                  imgURL = "/images/ChromExtension2048.png"
+                  imgURL = "/images/ChromeExtension2048.png"
                   link = "https://github.com/notjamesw/2048ChromeExtension"
                   description = {ChromeExtension2048Desc}/>}
     ]
-    
-    const itemsPerPage = 3;
 
-    const [currIndex, setCurrIndex] = useState(0);
-
-    const handlePrev = () => {
-      setCurrIndex((prevIndex) => {
-        if (prevIndex === 0) {
-          return Math.floor((projectsList.length - 1) / itemsPerPage)
-        } else {
-          return prevIndex - 1
-        }
-      })
-    }
-
-    const handleNext = () => {
-      setCurrIndex((prevIndex) => {
-        if (prevIndex === Math.floor((projectsList.length - 1) / itemsPerPage)) {
-          return 0
-        } else {
-          return prevIndex + 1
-        }
-      })
-    }
+    const swiperRef = useRef(null);
 
     return(
         <div id = "Projects" class = "container mx-auto mb-10">
-            <h2 class = "pl-0 pt-8 pb-12 m-6 text-4xl font-medium text-slate-100">
+            <h2 class = "pl-0 pt-8 m-6 text-4xl font-medium text-slate-100">
                 {titleText}
             </h2>
-            <div>
+            <div class = "container mx:auto flex justify-end mb-4 pr-14">
               <button
-                onClick={handlePrev}
-                className = "bg-slate-100 text-medium text-slate-900 font-semibold rounded-full border-2 border-slate-200 hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
+                onClick={(e) => {
+                  swiperRef.current.swiper.slidePrev();
+                  e.target.blur();
+                }}
+                className = "pb-1 h-12 w-12 mx-4 bg-slate-200 font-bold text-3xl text-slate-800 font-semibold rounded-full hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-100 focus:ring-offset-2">
                   &lt;
               </button>
               <button
-                onClick={handleNext}
-                className = "bg-slate-100 text-medium text-slate-900 font-semibold rounded-full border-2 border-slate-200 hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
+                onClick={(e) => {
+                  swiperRef.current.swiper.slideNext();
+                  e.target.blur();
+                }}
+                className = "pb-1 h-12 w-12 bg-slate-200 text-3xl font-bold text-slate-800 font-semibold rounded-full hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-100 focus:ring-offset-2">
                   &gt;
               </button>
             </div>
-            <div class="overflow-hidden">
-              <div
-                class="flex transition-transform duration-500 lg:gap-20 lg:ml-10"
-                style={{ transform: `translateX(-${currIndex}%)` }}>
-                {projectsList.map((project, index) => (
-                  <div key={index} class="flex">
-                    {project.component}
-                  </div>
+            <div className="w-screen max-w-6xl mx-auto p-4">
+              <Swiper
+                ref={swiperRef}
+                loop={true}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 1,
+                  },
+                  768: {
+                    slidesPerView: 2,
+                  },
+                  1024: {
+                    slidesPerView: 3,
+                  },
+                }}
+                >
+                {projectsList.map((project, index, slidesPerView) => (
+                  <SwiperSlide key={index} className="container flex justify-center">
+                    <div class = "flex flex-col justify-center items-center">
+                      {project.component}
+                    </div>
+                  </SwiperSlide>
                 ))}
-              </div>
+              </Swiper>
             </div>
         </div>
     )
 }
 
 export default Projects;
-
-
-/*
-<figure class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
-  <img class="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto" src="/sarah-dayan.jpg" alt="" width="384" height="512">
-  <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
-    <blockquote>
-      <p class="text-lg font-medium">
-        “Tailwind CSS is the only framework that I've seen scale
-        on large teams. It’s easy to customize, adapts to any design,
-        and the build size is tiny.”
-      </p>
-    </blockquote>
-    <figcaption class="font-medium">
-      <div class="text-sky-500 dark:text-sky-400">
-        Sarah Dayan
-      </div>
-      <div class="text-slate-700 dark:text-slate-500">
-        Staff Engineer, Algolia
-      </div>
-    </figcaption>
-  </div>
-</figure>
-*/
