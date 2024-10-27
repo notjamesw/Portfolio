@@ -26,7 +26,7 @@ function Introduction() {
     <header class = "flex flex-col items-center space-x-1 text-slate-800">
       <h1 class = "text-5xl p-6 font-bold">James Wen</h1>
       <div class = "flex flex-row">
-        <span class = "text-2xl font-mono">👋 {title}</span>
+        <span class = "text-2xl font-mono text-center">👋 {title}</span>
         <span class ="lg:border-l-2 border-black animate-blink box-shadow-none text-white">&#8203;</span>
       </div>
     </header>
