@@ -1,7 +1,8 @@
 import "./Projects.css";
 import React, {useRef} from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.css';
+import {Autoplay} from 'swiper/modules';
+import 'swiper/css/bundle';
 
 function Project(props) {
     const name = props.name;
@@ -16,11 +17,11 @@ function Project(props) {
                   href = {link} 
                   target="_blank"
                   rel='noreferrer'>
-                  <img src = {imgURL} alt = "" class = "h-full bg-slate-100">
+                  <img src = {imgURL} alt = "" class = "h-full bg-slate-100 shadow-lg hover:brightness-75">
                   </img>
                 </a>
             </div>
-            <div class = "container mx:auto p-2 h-48 w-80 bg-slate-100 flex-col justify-center">
+            <div class = "container mx:auto p-2 h-52 w-80 bg-slate-100 flex-col justify-center">
                 <h3 class = "mt-2 mb-2 text-xl font-semibold text-center">
                   {name}
                 </h3>
@@ -43,8 +44,16 @@ function Projects() {
     const LOLTMDesc = "Team and player information management tool for a popular multiplayer video game, League of Legends";
     const ChromeExtension2048Desc = "Chrome Extension for recreation of 2048, with data persistence built using the Chrome Storage API";
     const ZenGardenAward = "🏆 #3 overall @ Calgary Youth Hackathon, out of 100+ participants";
+    const AccessBuddyDesc = "An accessibility extension that turns natural language into website actions like typing and scrolling, empowering users with physical and visual challenges to browse effortlessly";
+    const AccessBuddyAward = "🏆 Community Impact @ nwHacks 2025";
 
     const projectsList = [
+      {component: <Project
+                  name = "AccessBuddy.ai"
+                  imgURL = "/images/AccessBuddy_crop.jpg"
+                  link = "https://github.com/notjamesw/AccessBuddy"
+                  description = {AccessBuddyDesc}
+                  award = {AccessBuddyAward} />},
       {component: <Project 
                   name = "Racket Web Interpreter"
                   imgURL = "/images/RacketInterpreter.png"
@@ -77,31 +86,21 @@ function Projects() {
 
     return(
         <div id = "Projects" class = "container mx-auto mb-10">
-            <h2 class = "pl-0 pt-8 m-6 text-4xl font-medium text-slate-100">
+            <h2 class = "pl-0 py-12 m-6 text-4xl font-medium text-slate-100">
                 {titleText}
             </h2>
-            <div class = "container mx:auto flex justify-end mb-4 pr-14">
-              <button
-                onClick={(e) => {
-                  swiperRef.current.swiper.slidePrev();
-                  e.target.blur();
-                }}
-                className = "pb-1 h-12 w-12 mx-4 bg-slate-200 font-bold text-3xl text-slate-800 font-semibold rounded-full hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-100 focus:ring-offset-2">
-                  &lt;
-              </button>
-              <button
-                onClick={(e) => {
-                  swiperRef.current.swiper.slideNext();
-                  e.target.blur();
-                }}
-                className = "pb-1 h-12 w-12 bg-slate-200 text-3xl font-bold text-slate-800 font-semibold rounded-full hover:text-white hover:bg-slate-900 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-100 focus:ring-offset-2">
-                  &gt;
-              </button>
-            </div>
             <div className="w-screen max-w-6xl mx-auto p-4">
               <Swiper
                 ref={swiperRef}
                 loop={true}
+                speed={400}
+                autoplay = {{
+                  delay: 4000,
+                  disableOnInteraction: false
+                }}
+                grabCursor={true}
+                centeredSlides={true}
+                modules={[Autoplay]}
                 breakpoints={{
                   640: {
                     slidesPerView: 1,
