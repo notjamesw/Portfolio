@@ -47,7 +47,7 @@ function Projects() {
     const AccessBuddyDesc = "An accessibility extension that turns natural language into website actions like typing and scrolling, empowering users with physical and visual challenges to browse effortlessly";
     const AccessBuddyAward = "🏆 Community Impact @ nwHacks 2025";
     const ArcLinkDesc = "A digital platform for Arc'teryx grantees to share stories, organize events, find collaborators, and spark the next wave of outdoor change."
-    const ArcLinkAward = "🏆 1st Place Arc'teryx Stream @ youCode 2025";
+    const ArcLinkAward = "🏆 1st Place - Arc'teryx Stream @ youCode 2025";
 
     const projectsList = [
       {component: <Project
