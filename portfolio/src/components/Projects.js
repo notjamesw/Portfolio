@@ -46,8 +46,16 @@ function Projects() {
     const ZenGardenAward = "🏆 #3 overall @ Calgary Youth Hackathon, out of 100+ participants";
     const AccessBuddyDesc = "An accessibility extension that turns natural language into website actions like typing and scrolling, empowering users with physical and visual challenges to browse effortlessly";
     const AccessBuddyAward = "🏆 Community Impact @ nwHacks 2025";
+    const ArcLinkDesc = "A digital platform for Arc'teryx grantees to share stories, organize events, find collaborators, and spark the next wave of outdoor change."
+    const ArcLinkAward = "🏆 1st Place Arc'teryx Stream @ youCode 2025";
 
     const projectsList = [
+      {component: <Project
+                  name = "ArcLink"
+                  imgURL = "/images/arclinklogo.png"
+                  link = "https://github.com/notjamesw/ArcLink"
+                  description = {ArcLinkDesc}
+                  award = {ArcLinkAward}/>},
       {component: <Project
                   name = "AccessBuddy.ai"
                   imgURL = "/images/AccessBuddy_crop.jpg"
@@ -59,6 +67,16 @@ function Projects() {
                   imgURL = "/images/RacketInterpreter.png"
                   link = "https://github.com/notjamesw/Racket-Interpreter-Web-App"
                   description = {RacketDesc}/>},
+      {component: <Project
+                  name = "2048 Chrome Extension"
+                  imgURL = "/images/ChromeExtension2048.png"
+                  link = "https://github.com/notjamesw/2048ChromeExtension"
+                  description = {ChromeExtension2048Desc}/>},
+      {component: <Project
+                  name = "LOL Teams Managing Tool"
+                  imgURL = "/images/LOLTM.png"
+                  link = "https://github.com/notjamesw/LOLTeamsManager"
+                  description = {LOLTMDesc}/>},
       {component: <Project 
                   name = "Flappy Bird AI"
                   imgURL = "/images/FlappyBirdAI.png"
@@ -70,16 +88,6 @@ function Projects() {
                   link = "https://github.com/d1story/CYH2021"
                   description = {ZenGardenDesc}
                   award = {ZenGardenAward}/>},
-      {component: <Project
-                  name = "LOL Teams Managing Tool"
-                  imgURL = "/images/LOLTM.png"
-                  link = "https://github.com/notjamesw/LOLTeamsManager"
-                  description = {LOLTMDesc}/>},
-      {component: <Project
-                  name = "2048 Chrome Extension"
-                  imgURL = "/images/ChromeExtension2048.png"
-                  link = "https://github.com/notjamesw/2048ChromeExtension"
-                  description = {ChromeExtension2048Desc}/>}
     ]
 
     const swiperRef = useRef(null);
