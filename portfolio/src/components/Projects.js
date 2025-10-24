@@ -97,7 +97,7 @@ function Projects() {
             <h2 class = "pl-0 py-12 m-6 text-4xl font-medium text-slate-100">
                 {titleText}
             </h2>
-            <div className="w-screen max-w-6xl mx-auto p-4">
+            <div className="w-screen max-w-7xl mx-auto p-4">
               <Swiper
                 ref={swiperRef}
                 loop={true}

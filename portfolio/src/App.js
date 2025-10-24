@@ -2,6 +2,7 @@ import './App.css';
 import Navigation from './components/Navigation';
 import Projects from './components/Projects';
 import React, {useState, useEffect, useRef} from "react";
+import Demo from './components/Demo';
 
 
 function Introduction() {
@@ -35,11 +36,11 @@ function Introduction() {
 
 function AboutMe() {
   return(
-    <div class = "mt-8 mb-8 flex flex-col flex justify-center items-center">
+    <div class = "mt-8 mb-8 flex flex-col justify-center items-center">
       <h2 class = "text-4xl p-4 font-bold text-slate-800">About Me</h2>
       <div class = "flex flex-col p-2 w-3/4 font-serif">
         <p class = "text-indent-2 text-lg text-slate-800 mb-6">
-        Hi! My name is James, and I am currently a 3rd year Computer Science 
+        Hi! My name is James, and I am currently a 4th year Computer Science 
         and Statistics student at the University of British Columbia! I love 
         innovation and creativity in the field of technology and seeing all 
         the fascinating ways innovators in this field have been able to apply 
@@ -99,6 +100,7 @@ function Contact() {
   )
 }
 
+
 function App() {
   const aboutMeDivRef = useRef(null);
   const projectsDivRef = useRef(null);
@@ -128,11 +130,16 @@ function App() {
       <div ref = {aboutMeDivRef} class = "p-6 container mx-auto min-w-full bg-slate-100">
         <AboutMe/>
       </div>
-      <div ref = {projectsDivRef} class = "p-4 container mx-auto min-w-full bg-blue-950 h-1/2">
-        <Projects/>
-      </div>
-      <div ref = {contactDivRef} class = "p-4 flex container mx-auto min-w-full bg-slate-100 h-1/2 items-center justify-center">
-        <Contact/>
+      <div class = "flex flex-col items-center bg-gradient-to-b from-blue-950 via-blue-900 to-slate-600 min-w-full">
+        <div ref = {projectsDivRef} class = "p-4 container mx-auto h-1/2 pt-8">
+          <Projects/>
+        </div>
+        <div class = "p-4 flex container mx-auto h-1/2 items-center justify-center bg-slate-100 rounded-lg">
+          <Demo/>
+        </div>
+        <div ref = {contactDivRef} class = "p-4 flex container mx-auto h-1/2 items-center justify-center mt-20">
+          <Contact/>
+        </div>
       </div>
     </div>
   );
