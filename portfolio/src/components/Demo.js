@@ -275,7 +275,7 @@ function Demo() {
 
       <div className="my-8">
         {!streaming ? (
-          <DemoButton text="Start Game" onClick={startGame}/>
+          <DemoButton text="Start Game" onClick={startGame} disabled={true}/>
         ) : (
           <div className="flex flex-row gap-4">
             <DemoButton text="Stop Game" onClick={stopGame} />
