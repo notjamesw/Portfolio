@@ -20,165 +20,90 @@ function Demo() {
   const remoteVideoRef = useRef(null);
   const [pc, setPc] = useState(null);
   const [streaming, setStreaming] = useState(false);
-  const [logs, setLogs] = useState([]);
-  const [connectionState, setConnectionState] = useState("new");
-  const [iceState, setIceState] = useState("new");
 
-  const addLog = (message, type = "info") => {
-    const timestamp = new Date().toLocaleTimeString();
-    setLogs(prev => [...prev, { timestamp, message, type }]);
-    console.log(`[${type.toUpperCase()}] ${message}`);
-  };
 
   const startGame = async () => {
-    try {
-      addLog(`Backend URL: ${BACKEND_URL}`, "info");
+    setStreaming(true);
+    const pc = new RTCPeerConnection();
+    setPc(pc);
+
+    // Register remote track handler
+    pc.ontrack = (event) => {
+      remoteVideoRef.current.srcObject = event.streams[0];
+    };
+
+    // Get local video feed from browser
+    const localStream = await navigator.mediaDevices.getUserMedia({
+      video: { width: 1280, height: 720, frameRate: {min: 20}, resizeMode: "none" },
+      audio: false
+    });
+
+    // Adjust sender params for better quality
+    const sender = pc.getSenders().find(s => s.track && s.track.kind === "video");
+    if (sender) {
+      const params = sender.getParameters();
+      if (!params.encodings) params.encodings = [{}];
+
+      params.encodings[0].scaleResolutionDownBy = 1; // no downscaling
+      params.encodings[0].maxBitrate = 5_000_000;    // allow up to 5 Mbps bitrate
       
-      // Test backend connectivity first
-      addLog("Testing backend connection...", "info");
-      const healthCheck = await fetch(`${BACKEND_URL}/`, {
-        method: "GET",
-      });
-      if (!healthCheck.ok) {
-        throw new Error(`Backend health check failed: ${healthCheck.status}`);
-      }
-      addLog("✓ Backend is reachable", "success");
-
-      setStreaming(true);
-      // Fetch ICE configuration from backend to ensure consistency
-      const iceConfigResponse = await fetch(`${BACKEND_URL}/ice-config`);
-      const iceConfig = await iceConfigResponse.json();
-      addLog(`ICE servers: ${iceConfig.ice_servers.length} configured`, "info");
+      await sender.setParameters(params);
       
-      const pc = new RTCPeerConnection({
-        iceServers: iceConfig.ice_servers
-      });
-      setPc(pc);
+      // console.log("Sender parameters:", params);
+      // Also inspect the video track itself
+      // const settings = sender.track.getSettings();
+      // console.log(`Track capture: ${settings.width}x${settings.height} @ ${settings.frameRate}fps`);
+    }
 
-      // Log ICE connection state changes
-      pc.oniceconnectionstatechange = () => {
-        setIceState(pc.iceConnectionState);
-        addLog(`ICE Connection State: ${pc.iceConnectionState}`, 
-               pc.iceConnectionState === "connected" ? "success" : "info");
-      };
+    if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
 
-      // Log connection state changes
-      pc.onconnectionstatechange = () => {
-        setConnectionState(pc.connectionState);
-        addLog(`Connection State: ${pc.connectionState}`,
-               pc.connectionState === "connected" ? "success" : "info");
-      };
+    // Add local tracks
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
-      // Log ICE candidates
-      pc.onicecandidate = (event) => {
-        if (event.candidate) {
-          addLog(`ICE Candidate: ${event.candidate.candidate.substring(0, 50)}...`, "debug");
-        } else {
-          addLog("ICE Gathering Complete", "info");
+    // Create offer after tracks are added
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    // Send offer to backend
+    const response = await fetch(`${BACKEND_URL}/offer`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sdp: offer.sdp, type: offer.type, resolution: 720 }),
+    });
+    const answer = await response.json();
+
+    // Set remote description
+    await pc.setRemoteDescription(answer);
+  };
+
+  // Stop game / close peer connection
+    const stopGame = async () => {
+        setStreaming(false);
+
+        if (pc) {
+            pc.getSenders().forEach(sender => {
+                if (sender.track) sender.track.stop();
+            });
+            pc.close();
+            setPc(null);
         }
-      };
 
-      // Register remote track handler
-      pc.ontrack = (event) => {
-        addLog("✓ Received remote track", "success");
-        remoteVideoRef.current.srcObject = event.streams[0];
-      };
+        try {
+            await fetch(`${BACKEND_URL}/stop`, { method: "POST" });
+        } catch (err) {
+            console.warn("Backend stop call failed:", err);
+        }
 
-      // Get local video feed from browser
-      addLog("Requesting camera access...", "info");
-      const localStream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 1280, height: 720, frameRate: {min: 20}, resizeMode: "none" },
-        audio: false
-      });
-      addLog("✓ Camera access granted", "success");
+        if (localVideoRef.current?.srcObject) {
+            localVideoRef.current.srcObject.getTracks().forEach((t) => t.stop());
+            localVideoRef.current.srcObject = null;
+        }
 
-      if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
-
-      // Add local tracks
-      localStream.getTracks().forEach(track => {
-        const sender = pc.addTrack(track, localStream);
-        addLog(`Added ${track.kind} track`, "info");
-      });
-
-      // Adjust sender params for better quality
-      const sender = pc.getSenders().find(s => s.track && s.track.kind === "video");
-      if (sender) {
-        const params = sender.getParameters();
-        if (!params.encodings) params.encodings = [{}];
-
-        params.encodings[0].scaleResolutionDownBy = 1;
-        params.encodings[0].maxBitrate = 5_000_000;
-        
-        await sender.setParameters(params);
-        addLog("✓ Video encoding parameters set", "info");
-      }
-
-      // Create offer after tracks are added
-      addLog("Creating offer...", "info");
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-      addLog("✓ Local description set", "success");
-
-      // Send offer to backend
-      addLog("Sending offer to backend...", "info");
-      const response = await fetch(`${BACKEND_URL}/offer`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sdp: offer.sdp, type: offer.type, resolution: 720 }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Backend returned ${response.status}: ${await response.text()}`);
-      }
-
-      const answer = await response.json();
-      addLog("✓ Received answer from backend", "success");
-
-      // Set remote description
-      await pc.setRemoteDescription(answer);
-      addLog("✓ Remote description set", "success");
-      addLog("WebRTC negotiation complete. Waiting for connection...", "info");
-
-    } catch (err) {
-      addLog(`ERROR: ${err.message}`, "error");
-      console.error("Start game error:", err);
-      setStreaming(false);
-    }
-  };
-
-  const stopGame = async () => {
-    setStreaming(false);
-    addLog("Stopping game...", "info");
-
-    if (pc) {
-      pc.getSenders().forEach(sender => {
-        if (sender.track) sender.track.stop();
-      });
-      pc.close();
-      setPc(null);
-      addLog("✓ Peer connection closed", "info");
-    }
-
-    try {
-      await fetch(`${BACKEND_URL}/stop`, { method: "POST" });
-      addLog("✓ Backend stop signal sent", "success");
-    } catch (err) {
-      addLog(`Warning: Backend stop call failed: ${err.message}`, "warning");
-    }
-
-    if (localVideoRef.current?.srcObject) {
-      localVideoRef.current.srcObject.getTracks().forEach((t) => t.stop());
-      localVideoRef.current.srcObject = null;
-    }
-
-    if (remoteVideoRef.current?.srcObject) {
-      remoteVideoRef.current.srcObject.getTracks().forEach((t) => t.stop());
-      remoteVideoRef.current.srcObject = null;
-    }
-
-    setConnectionState("new");
-    setIceState("new");
-  };
+        if (remoteVideoRef.current?.srcObject) {
+            remoteVideoRef.current.srcObject.getTracks().forEach((t) => t.stop());
+            remoteVideoRef.current.srcObject = null;
+        }
+    };
 
   const resetGame = async () => {
     try {
@@ -187,9 +112,8 @@ function Demo() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({})
       });
-      addLog("✓ Game reset", "success");
     } catch (err) {
-      addLog(`Reset failed: ${err.message}`, "error");
+      console.warn("Backend reset call failed:", err);
     }
   };
   
@@ -200,13 +124,10 @@ function Demo() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({})
       });
-      addLog("✓ Tracking toggled", "success");
     } catch (err) {
-      addLog(`Toggle tracking failed: ${err.message}`, "error");
+      console.warn("Backend toggle_hands call failed:", err);
     }
   };
-
-  const clearLogs = () => setLogs([]);
 
   return (
     <div className="mt-8 mb-8 flex flex-col justify-center items-center">
